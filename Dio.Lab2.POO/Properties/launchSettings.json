@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Dio.Lab2.POO": {
+      "commandName": "Project",
+      "commandLineArgs": "category:Terror,Suspense,Ação,Aventura,Romance,Comedia"
+    }
+  }
+}
