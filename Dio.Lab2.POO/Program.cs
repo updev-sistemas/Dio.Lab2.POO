@@ -15,19 +15,17 @@ namespace Dio.Lab2.POO
 
             if(args.Length > 0)
             {
-                foreach(var arg in args)
+                try
                 {
-                    if(arg.Contains(':'))
+                    foreach (var arg in args)
                     {
-                        var commands = arg.Split(':');
-
-                        if(commands.Length == 2)
+                        if (arg.Contains(':'))
                         {
-                            if(commands[0].ToLower() == "category")
-                            {
-                                var listCategories = commands[1].Split('\u002C');
+                            string[]? listCategories = args.Where(x => x.Contains("category")).FirstOrDefault(string.Empty).Split(':').ElementAt(1).Split('\u002C');
 
-                                foreach(var category in listCategories)
+                            if (listCategories.Length > 0)
+                            {
+                                foreach (var category in listCategories)
                                 {
                                     db.Category.Save(new CategoryEntity
                                     {
@@ -37,6 +35,12 @@ namespace Dio.Lab2.POO
                             }
                         }
                     }
+                }
+                catch
+                {
+#if DEBUG
+                    Console.WriteLine("Não foi possível inicializar o banco de dados.");
+#endif
                 }
             }
  
@@ -57,12 +61,14 @@ namespace Dio.Lab2.POO
             Console.WriteLine("+-----------------------------------------+");
         }
 
+
+        // Em debug, passar como argumento: category:Categoria 1, Categoria 2, Categoria 3, Categoria 4
         public static void Main(string[] args)
         {
             Initializer(args);
 
 
-            int optionSelected = 0;
+            int optionSelected;
 
             do
             {
